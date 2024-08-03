@@ -71,12 +71,10 @@ jobs:
           distribution: 'microsoft'
       - name: Download and install Allure
         run: |
-          curl -o allure-commandline.zip -L "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.27.0.zip"
-          powershell -Command "Expand-Archive -Path allure-commandline.zip -DestinationPath ."
-          mkdir C:\allure\bin
-          Move-Item allure-2.27.0\bin\allure.bat C:\allure\bin\
-          echo %errorlevel% 
-          $env:Path += ";C:\allure\bin"
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm get.scoop.sh | iex
+          irm get.scoop.sh -Proxy 'http://<ip:port>' | iex
+          scoop install allure
       - name: Check Java version
         run: java -version
       - name: Check Allure version
