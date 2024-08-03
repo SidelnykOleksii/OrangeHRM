@@ -67,8 +67,9 @@ jobs:
       - name: Download and install Allure
         run: |
           curl -o allure-commandline.zip -L "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.17.2/allure-commandline-2.17.2.zip"
-          tar -xf allure-commandline.zip
-          Move-Item allure-2.17.2\bin\allure.exe C:\allure\bin\
+          powershell -Command "Expand-Archive -Path allure-commandline.zip -DestinationPath ."
+          mkdir C:\allure\bin
+          Move-Item allure-2.17.2\bin\allure.bat C:\allure\bin\
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Generate Allure report
