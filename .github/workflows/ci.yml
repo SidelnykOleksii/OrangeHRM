@@ -74,6 +74,7 @@ jobs:
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
           irm get.scoop.sh | iex
           scoop install allure
+          $env:Path += ";$($env:SCOOP)\shims"
       - name: Check Java version
         run: java -version
       - name: Check Allure version
