@@ -64,9 +64,11 @@ jobs:
     needs: test  # Запуститься після виконання джоби test, коли всі тести пройдуть
     name: Generate Allure report
     steps:
-      - name: Install Allure
-        run: | 
-          choco install allure
+      - name: Download and install Allure
+        run: |
+         curl -o allure-commandline.zip -L "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.17.2/allure-commandline-2.17.2.zip"
+         tar -xvf allure-commandline.zip -C /usr/local/bin/
+         mv /usr/local/bin/allure-2.17.2/bin/allure /usr/local/bin/
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Generate Allure report
