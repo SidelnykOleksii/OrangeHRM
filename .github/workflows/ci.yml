@@ -69,12 +69,11 @@ jobs:
         with:
           java-version: '21'
           distribution: 'microsoft'
-      - name: Download and install Allure
+      - name: Download and extract Allure
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-          irm get.scoop.sh | iex
-          scoop install allure
-          $env:Path += ";$($env:SCOOP)\shims"
+          wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip
+          Expand-Archive allure-2.23.1.zip -DestinationPath .
+          $env:Path += ";$(Get-Location)\allure-2.23.1\bin"
       - name: Check Java version
         run: java -version
       - name: Check Allure version
