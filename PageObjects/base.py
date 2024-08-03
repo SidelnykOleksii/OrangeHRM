@@ -21,5 +21,5 @@ class Base:
 
     def get_items_lists(self, locator: str):
         items = self.page.locator(locator).all_inner_texts()
-        i = items.sort()
+        i = sorted(items)
         return i

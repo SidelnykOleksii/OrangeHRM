@@ -1,9 +1,12 @@
 import allure
+import pytest
+
 from PageObjects.login import LoginPage
 
 
 class TestLogin:
     @allure.title('User can log in with valid data')
+    @pytest.mark.smoke
     def test_user_valid_login(self, browser):
         l = LoginPage(browser)
         l.user_login()

@@ -2,6 +2,7 @@ import allure
 from playwright.sync_api import Page
 from PageObjects.base import Base
 from Data.assertions import Assertions
+import logging
 
 # user details header
 USER_DETAILS_DROPDOWN = '//span[@class="oxd-userdropdown-tab"]'
@@ -23,6 +24,8 @@ class DefaultPageObjects(Base):
     def __init__(self, page: Page) -> None:
         super().__init__(page)
         self.assertions = Assertions(page)
+        logging.basicConfig(filename='logging.log', level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
 
     @allure.step
     def click_log_out_button(self):
@@ -31,6 +34,7 @@ class DefaultPageObjects(Base):
 
     def click_about_button(self):
         self.click(USER_DETAILS_DROPDOWN)
+        self.page.wait_for_selector(USER_DETAILS_DROPDOWN_MENU)
         self.page.get_by_role("menuitem", name="About").click()
 
     def left_side_menu_search(self, input_value: str, expected_count: int):
@@ -50,12 +54,17 @@ class DefaultPageObjects(Base):
         else:
             pass
 
+    @allure.step
     def assert_title_items_in_about_pop_up(self):
-        expected = about_pop_up_expected_items.sort()
+        expected = sorted(about_pop_up_expected_items)
         self.click_about_button()
         self.page.wait_for_selector(ABOUT_POP_UP)
         actual = self.get_items_lists(ABOUT_POP_UP_TITLE_ITEMS)
-        assert expected == actual
+        self.logger.info(f"Expected items: {expected}")
+        self.logger.info(f"Actual items: {actual}")
+        for item in expected:
+            assert item in actual, f"Item '{item}' is missing in the actual list of items"
+            self.logger.info(f"Item '{item}' is present in the actual list of items")
 
     def assert_header_item_according_to_selected_menu_item(self):
         menu_items = [
