@@ -64,9 +64,9 @@ jobs:
     needs: test  # Запуститься після виконання джоби test, коли всі тести пройдуть
     name: Generate Allure report
     steps:
-      - uses: actions/checkout@v3
-      - name: Download Allure CLI
-        uses: allure-framework/allure2  # Ця action завантажує Allure CLI для Windows
+      - name: Install Allure
+        run: | 
+          choco install allure
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Generate Allure report
