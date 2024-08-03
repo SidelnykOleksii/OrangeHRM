@@ -72,6 +72,10 @@ jobs:
           Move-Item allure-2.17.2\bin\allure.bat C:\allure\bin\
           echo %errorlevel% 
           $env:Path += ";C:\allure\bin"
+      - name: Check Java version
+        run: java -version
+      - name: Check Allure version
+        run: allure --version
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Generate Allure report
