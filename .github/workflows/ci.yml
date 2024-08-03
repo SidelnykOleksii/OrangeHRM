@@ -72,7 +72,8 @@ jobs:
       - name: Download and extract Allure
         run: |
           Invoke-WebRequest -Uri 'https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip' -OutFile 'allure-2.23.1.zip'
-          $env:Path += ";$(Get-Location -Path allure-2.23.1.zip).Directory + '\bin'"
+          $allurePath = Split-Path -Path 'allure-2.23.1.zip'
+          $env:Path += ";$($allurePath)\bin"
           Expand-Archive allure-2.23.1.zip -DestinationPath .
       - name: Check Java version
         run: java -version
