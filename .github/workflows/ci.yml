@@ -1,11 +1,22 @@
 name: CI for OrangeHRM
 
-on:
-  push:
-    branches:
-      - master
+#on:
+#  push:
+#    branches:
+#      - master
 #  schedule:
 #    - cron: '0 0 * * *'  # Запуск кожного дня о півночі
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default: Smoke tests
+        type: choice
+        options:
+          - Smoke tests
+          - All tests
 
 jobs:
   test:
@@ -32,6 +43,50 @@ jobs:
         run: |
           playwright install
 
-      - name: Run tests
-        run: |
-          pytest -m "smoke" -v --disable-warnings
+      - name: Smoke tests
+        if: "github.event.inputs.deployment_target == 'Smoke tests'"
+        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
+        continue-on-error: true
+      - name: All tests
+        if: "github.event.inputs.deployment_target == 'All tests'"
+        run: pytest -v .\Tests --disable-warnings --alluredir=allure-results
+        continue-on-error: true
+      - name: Store allure results  # Дозволяє скачати в наступій джобі результати виконання тестів. Це артефакт джоби test.
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path:
+            allure-results
+          retention-days: 1
+
+  generate-report:
+    runs-on: windows-latest
+    needs: test  # Запуститься після виконання джоби test, коли всі тести пройдуть
+    name: Generate Allure report
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Allure CLI
+        uses: actions/download-allure-action@v1  # Ця action завантажує Allure CLI для Windows
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+      - name: Generate Allure report
+        run: allure generate -c allure-results -o _site
+      - name: Store generated report
+        uses: actions/upload-artifact@v3
+        with:
+          name: _site
+          path: _site
+          retention-days: 1
+
+  publish_report:
+    runs-on: windows-latest
+    needs: generate-report
+    name: Report publication
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1.2.9
