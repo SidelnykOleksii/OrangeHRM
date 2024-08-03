@@ -75,7 +75,7 @@ jobs:
       - name: Check Java version
         run: java -version
       - name: Check Allure version
-        run: allure --version
+        run: C:\allure\bin\allure.bat --version
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Generate Allure report
