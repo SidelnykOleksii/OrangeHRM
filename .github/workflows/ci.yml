@@ -3,7 +3,7 @@ name: CI for OrangeHRM
 on:
   push:
     branches:
-      - main
+      - master
 #  schedule:
 #    - cron: '0 0 * * *'  # Запуск кожного дня о півночі
 
