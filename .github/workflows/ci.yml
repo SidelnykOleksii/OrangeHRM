@@ -66,10 +66,10 @@ jobs:
     steps:
       - name: Download and install Allure
         run: |
-          curl -o allure-commandline.zip -L "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.17.2/allure-commandline-2.17.2.zip"
+          curl -o allure-commandline.zip -L "https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.27.0/allure-commandline-2.17.2.zip"
           powershell -Command "Expand-Archive -Path allure-commandline.zip -DestinationPath ."
           mkdir C:\allure\bin
-          Move-Item allure-2.17.2\bin\allure.bat C:\allure\bin\
+          Move-Item allure-2.27.0\bin\allure.bat C:\allure\bin\
           echo %errorlevel% 
           $env:Path += ";C:\allure\bin"
       - name: Check Java version
