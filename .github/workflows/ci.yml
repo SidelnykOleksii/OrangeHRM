@@ -60,7 +60,7 @@ jobs:
           retention-days: 1
 
   generate-report:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: test  # Запуститься після виконання джоби test, коли всі тести пройдуть
     name: Generate Allure report
     steps:
