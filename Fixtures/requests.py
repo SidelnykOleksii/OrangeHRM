@@ -2,7 +2,7 @@ import pytest
 import requests
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def postman_post_request():
     url = "https://postman-rest-api-learner.glitch.me//info"
     payload = {"name": "Add your name in the body"}
@@ -10,7 +10,7 @@ def postman_post_request():
     yield response
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def postman_get_request():
     url = "https://postman-rest-api-learner.glitch.me//info?id=1"
     payload = {}
