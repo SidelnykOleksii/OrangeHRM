@@ -1,22 +1,22 @@
 name: CI for OrangeHRM
 
-#on:
-#  push:
-#    branches:
-#      - master
+on:
+  push:
+    branches:
+      - playwright_async_api
 #  schedule:
 #    - cron: '0 0 * * *'  # Запуск кожного дня о півночі
-on:
-  workflow_dispatch:
-    inputs:
-      deployment_target:
-        description: Choose target
-        required: true
-        default: Smoke tests
-        type: choice
-        options:
-          - Smoke tests
-          - All tests
+#on:
+#  workflow_dispatch:
+#    inputs:
+#      deployment_target:
+#        description: Choose target
+#        required: true
+#        default: Smoke tests
+#        type: choice
+#        options:
+#          - Smoke tests
+#          - All tests
 
 permissions:
   contents: read
