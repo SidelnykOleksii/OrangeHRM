@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.mark.smoke
 def test_post(postman_post_request):
     assert postman_post_request.status_code == 200
