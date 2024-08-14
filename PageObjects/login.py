@@ -24,17 +24,17 @@ class LoginPage(Base):
         self.assertions.check_URL("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", "Wrong URL")
 
     @allure.step
-    def login_invalid_username(self):
+    def login_invalid_username(self, username: str):
         self.open("web/index.php/auth/login")
-        self.input(USERNAME_FIELD, "invalid_username")
+        self.input(USERNAME_FIELD, username)
         self.input(PASSWORD_FIELD, Constants.password)
         self.click(SUBMIT_BUTTON)
         self.assertions.check_presence(INVALID_CREDENTIALS_ERROR_MESSAGE)
 
     @allure.step
-    def login_invalid_password(self):
+    def login_invalid_password(self, password: str):
         self.open("web/index.php/auth/login")
         self.input(USERNAME_FIELD, Constants.login)
-        self.input(PASSWORD_FIELD, "invalid_password")
+        self.input(PASSWORD_FIELD, password)
         self.click(SUBMIT_BUTTON)
         self.assertions.check_presence(INVALID_CREDENTIALS_ERROR_MESSAGE)

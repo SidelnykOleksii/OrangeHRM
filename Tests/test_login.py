@@ -1,6 +1,5 @@
 import allure
 import pytest
-
 from PageObjects.login import LoginPage
 
 
@@ -14,9 +13,9 @@ class TestLogin:
     @allure.title('User can not log in with invalid username')
     def test_login_invalid_username(self, browser):
         l = LoginPage(browser)
-        l.login_invalid_username()
+        l.login_invalid_username("someusername")
 
     @allure.title('User can not log in with invalid password')
     def test_login_invalid_password(self, browser):
         l = LoginPage(browser)
-        l.login_invalid_password()
+        l.login_invalid_password("somepassword")

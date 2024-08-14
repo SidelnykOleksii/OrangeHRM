@@ -15,7 +15,8 @@ LEFT_SIDE_MENU_ITEMS = "//ul[@class='oxd-main-menu']/li"
 
 # About pop-up
 ABOUT_POP_UP = '//div[@class="oxd-sheet oxd-sheet--rounded oxd-sheet--white oxd-dialog-sheet oxd-dialog-sheet--shadow oxd-dialog-sheet--gutters"]'
-ABOUT_POP_UP_TITLE_ITEMS = '//p[@class="oxd-text oxd-text--p orangehrm-about-title"]'
+ABOUT_POP_UP_TITLE_ITEMS = '//div//p[@class="oxd-text oxd-text--p orangehrm-about-title"]'
+ABOUT_POP_UP_CLOSE_BUTTON = "//button[@class='oxd-dialog-close-button oxd-dialog-close-button-position']"
 
 about_pop_up_expected_items = ['Company Name:', 'Version:', 'Active Employees:', 'Employees Terminated:']
 
@@ -58,13 +59,14 @@ class DefaultPageObjects(Base):
     def assert_title_items_in_about_pop_up(self):
         expected = sorted(about_pop_up_expected_items)
         self.click_about_button()
-        self.page.wait_for_selector(ABOUT_POP_UP)
+        self.page.wait_for_selector(ABOUT_POP_UP_TITLE_ITEMS)
         actual = self.get_items_lists(ABOUT_POP_UP_TITLE_ITEMS)
         self.logger.info(f"Expected items: {expected}")
         self.logger.info(f"Actual items: {actual}")
         for item in expected:
             assert item in actual, f"Item '{item}' is missing in the actual list of items"
             self.logger.info(f"Item '{item}' is present in the actual list of items")
+        self.page.locator(ABOUT_POP_UP_CLOSE_BUTTON).click()
 
     def assert_header_item_according_to_selected_menu_item(self):
         menu_items = [
