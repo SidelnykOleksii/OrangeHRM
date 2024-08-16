@@ -12,6 +12,7 @@ HEADER_LEFT_SIDE_TEXT = "//div[@class='oxd-topbar-header']//span/h6"
 # Left side menu
 LEFT_SIDE_MENU_SEARCH_FIELD = "//input[@placeholder='Search']"
 LEFT_SIDE_MENU_ITEMS = "//ul[@class='oxd-main-menu']/li"
+LEFT_SIDE_MENU_ITEM = "//ul[@class='oxd-main-menu']/li//span"
 
 # About pop-up
 ABOUT_POP_UP = '//div[@class="oxd-sheet oxd-sheet--rounded oxd-sheet--white oxd-dialog-sheet oxd-dialog-sheet--shadow oxd-dialog-sheet--gutters"]'
@@ -48,6 +49,11 @@ class DefaultPageObjects(Base):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
         count = self.page.locator(LEFT_SIDE_MENU_ITEMS).count()
         assert count == 12
+
+    def select_left_side_menu_item(self, item_name: str):
+        self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
+        self.page.get_by_role("link", name=item_name).click()
+        # self.page.locator(f"{LEFT_SIDE_MENU_ITEM} and text() = {item_name}").click()
 
     def log_out(self):
         if self.page.is_visible(USER_DETAILS_DROPDOWN):

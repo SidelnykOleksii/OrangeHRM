@@ -6,7 +6,7 @@ class Assertions(Base):
     def __init__(self, page: Page) -> None:
         super().__init__(page)
 
-    def check_URL(self, uri, msg):
+    def check_url(self, uri, msg):
         expect(self.page).to_have_url(uri, timeout=10000), msg
 
     def have_text(self, locator, text: str, msg):  # element have text
