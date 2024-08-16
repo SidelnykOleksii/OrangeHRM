@@ -8,6 +8,7 @@ USERNAME_FIELD = "//input[@name='username']"
 PASSWORD_FIELD = "//input[@name='password']"
 SUBMIT_BUTTON = "//button[@type='submit']"
 INVALID_CREDENTIALS_ERROR_MESSAGE = "//p[text()[contains(.,'Invalid credentials')]]"
+REQUIRED_ERROR_MESSAGE = "//div/span[@class='oxd-text oxd-text--span oxd-input-field-error-message oxd-input-group__message']"
 
 
 class LoginPage(Base):
@@ -21,20 +22,19 @@ class LoginPage(Base):
         self.input(USERNAME_FIELD, Constants.login)
         self.input(PASSWORD_FIELD, Constants.password)
         self.click(SUBMIT_BUTTON)
-        self.assertions.check_URL("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", "Wrong URL")
+        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", "Wrong URL")
 
     @allure.step
-    def login_invalid_username(self, username: str):
+    def login_invalid_data(self, username: str, password: str):
         self.open("web/index.php/auth/login")
         self.input(USERNAME_FIELD, username)
-        self.input(PASSWORD_FIELD, Constants.password)
-        self.click(SUBMIT_BUTTON)
-        self.assertions.check_presence(INVALID_CREDENTIALS_ERROR_MESSAGE)
-
-    @allure.step
-    def login_invalid_password(self, password: str):
-        self.open("web/index.php/auth/login")
-        self.input(USERNAME_FIELD, Constants.login)
         self.input(PASSWORD_FIELD, password)
         self.click(SUBMIT_BUTTON)
         self.assertions.check_presence(INVALID_CREDENTIALS_ERROR_MESSAGE)
+
+    def login_empty_fields(self, username: str, password: str):
+        self.open("web/index.php/auth/login")
+        self.input(USERNAME_FIELD, username)
+        self.input(PASSWORD_FIELD, password)
+        self.click(SUBMIT_BUTTON)
+        self.assertions.check_presence(REQUIRED_ERROR_MESSAGE)

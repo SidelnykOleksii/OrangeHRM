@@ -13,7 +13,7 @@ class TestDefaultPage:
     def test_log_out(self, browser):
         d = DefaultPageObjects(browser)
         d.click_log_out_button()
-        d.assertions.check_URL("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login", msg="Wrong URL")
+        d.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login", msg="Wrong URL")
 
     @allure.title('User can search left side menu items using letters')
     def test_search_left_side_menu_items_by_letters(self, browser):
