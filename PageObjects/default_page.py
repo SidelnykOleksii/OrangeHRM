@@ -48,7 +48,7 @@ class DefaultPageObjects(Base):
     def get_default_left_side_menu_items(self):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
         count = self.page.locator(LEFT_SIDE_MENU_ITEMS).count()
-        assert count == 12
+        assert count == 10
 
     def select_left_side_menu_item(self, item_name: str):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
@@ -76,8 +76,8 @@ class DefaultPageObjects(Base):
 
     def assert_header_item_according_to_selected_menu_item(self):
         menu_items = [
-            ("Recruitment", "Recruitment"),
-            ("Dashboard", "Dashboard"),
+            ("Leave", "Leave"),
+            ("Directory", "Directory"),
         ]
         for menu_text, expected_header_text in menu_items:
             self.page.locator(LEFT_SIDE_MENU_ITEMS, has_text=menu_text).click()
