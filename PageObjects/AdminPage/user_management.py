@@ -24,7 +24,7 @@ class AdminPage(Base):
     def select_employee(self, employee_name: str):
         self.page.get_by_placeholder("Type for hints...").click()
         self.page.get_by_placeholder("Type for hints...").fill(employee_name)
-        self.page.get_by_text(employee_name).click()
+        self.page.get_by_text(employee_name).first.click()
 
     def input_username(self, username: str):
         self.input(USERNAME_FIELD, username)
@@ -63,5 +63,6 @@ class AdminPage(Base):
         self.set_pass(password)
         self.confirm_pass(confirm_pass)
         self.click(SAVE_NEW_USER_BUTTON)
-        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers", "Wrong URL")
+        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers",
+                                  msg="Wrong URL")
         # need to add a check for displaying the user in the list

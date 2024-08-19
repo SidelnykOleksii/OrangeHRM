@@ -18,7 +18,7 @@ class TestDefaultPage:
     @allure.title('User can search left side menu items using letters')
     def test_search_left_side_menu_items_by_letters(self, browser):
         d = DefaultPageObjects(browser)
-        d.left_side_menu_search('P', 2)
+        d.left_side_menu_search('d', 3)
 
     @allure.title('User can not search left side menu items using numbers')
     def test_search_left_side_menu_items_by_numbers(self, browser):
