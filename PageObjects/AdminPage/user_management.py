@@ -1,15 +1,21 @@
 from playwright.sync_api import Page
-from PageObjects.default_page import DefaultPageObjects
 from PageObjects.base import Base
+from Data.assertions import Assertions
 
-
+# buttons
 ADD_USER_BUTTON = "//div[@class='orangehrm-header-container']/button"
+SAVE_NEW_USER_BUTTON = "//button[text()[contains(.,'Save')]]"
+
+# fields
+USERNAME_FIELD = "div > div:nth-child(4) > div > div:nth-child(2) > input"
+PASSWORD_FIELD = "div > div.oxd-grid-item.oxd-grid-item--gutters.user-password-cell > div > div:nth-child(2) > input"
+CONFIRM_PASSWORD_FIELD = "div.oxd-form-row.user-password-row > div > div:nth-child(2) > div > div:nth-child(2) > input"
 
 
 class AdminPage(Base):
-    def __int__(self, page: Page) -> None:
-        super().__int__(page)
-        self.default_page = DefaultPageObjects(page)
+    def __init__(self, page: Page) -> None:
+        super().__init__(page)
+        self.assertions = Assertions(page)
 
     def select_user_role(self, user_role: str):
         self.page.get_by_text("-- Select --").first.click()
@@ -21,16 +27,17 @@ class AdminPage(Base):
         self.page.get_by_text(employee_name).click()
 
     def input_username(self, username: str):
-        self.page.get_by_role("textbox").nth(2).click()
-        self.page.get_by_role("textbox").nth(2).fill(username)
+        self.input(USERNAME_FIELD, username)
+
+    def select_status(self, status: str):
+        self.page.get_by_text("-- Select --").click()
+        self.page.get_by_text(status).click()
 
     def set_pass(self, password: str):
-        self.page.get_by_role("textbox").nth(3).click()
-        self.page.get_by_role("textbox").nth(3).fill(password)
+        self.input(PASSWORD_FIELD, password)
 
     def confirm_pass(self, confirm_pass: str):
-        self.page.get_by_role("textbox").nth(4).click()
-        self.page.get_by_role("textbox").nth(4).fill(confirm_pass)
+        self.input(CONFIRM_PASSWORD_FIELD, confirm_pass)
 
     def delete_user_by_name(self, name: str):  # doesn't work correctly, need to check the locators
         self.page.wait_for_selector("//div[@class='oxd-table-card']")
@@ -47,13 +54,14 @@ class AdminPage(Base):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-    def add_new_admin(self, user_role, employee_name, username, password, confirm_pass):
-        self.page.locator(ADD_USER_BUTTON).click()
+    def add_new_user(self, user_role, employee_name, username, password, confirm_pass, status):
+        self.click(ADD_USER_BUTTON)
         self.select_user_role(user_role)
         self.select_employee(employee_name)
         self.input_username(username)
+        self.select_status(status)
         self.set_pass(password)
         self.confirm_pass(confirm_pass)
-        self.page.get_by_text("-- Select --").click()
-        self.page.get_by_text("Enabled").click()
-        self.page.get_by_role("button", name="Save").click()
+        self.click(SAVE_NEW_USER_BUTTON)
+        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers", "Wrong URL")
+        # need to add a check for displaying the user in the list
