@@ -5,7 +5,7 @@ from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
 def pytest_addoption(parser):
     """Custom command line options"""
     parser.addoption('--bn', action='store', default="chrome", help="Choose browser: chrome, remote_chrome or firefox")
-    parser.addoption('--h', action='store', default=True, help='Choose headless: True or False')
+    parser.addoption('--h', action='store', default=False, help='Choose headless: True or False')
     parser.addoption('--s', action='store', default={'width': 1920, 'height': 1080}, help='Size window: width,height')
     parser.addoption('--slow', action='store', default=200, help='Choose slow_mo for robot action')
     parser.addoption('--t', action='store', default=10000, help='Choose timeout')

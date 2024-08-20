@@ -1,3 +1,5 @@
+from typing import Optional
+
 import allure
 from playwright.sync_api import Page, TimeoutError, Response
 from Data.environment import host
@@ -8,7 +10,7 @@ class Base:
         self.page = page
 
     @allure.step
-    def open(self, uri) -> Response | None:
+    def open(self, uri) -> Optional[Response]:
         return self.page.goto(f"{host.get_base_url()}{uri}", wait_until='domcontentloaded')
 
     @allure.step
