@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 from PageObjects.base import Base
 from Data.assertions import Assertions
+from Data.variables import PageUrls
 
 # buttons
 ADD_USER_BUTTON = "//div[@class='orangehrm-header-container']/button"
@@ -63,6 +64,6 @@ class AdminPage(Base):
         self.set_pass(password)
         self.confirm_pass(confirm_pass)
         self.click(SAVE_NEW_USER_BUTTON)
-        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers",
+        self.assertions.check_url(uri=PageUrls.page_urls()["view_system_users_page"],
                                   msg="Wrong URL")
         # need to add a check for displaying the user in the list
