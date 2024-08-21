@@ -84,13 +84,13 @@ jobs:
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
 
-      - name: Run smoke tests
-        if: ${{ matrix.target == 'Smoke tests' }}
+      - name: Smoke tests
+        if: "github.event.inputs.deployment_target == 'Smoke tests'"
         run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
         continue-on-error: true
 
-      - name: Run all tests
-        if: ${{ matrix.target == 'All tests' }}
+      - name: All tests
+        if: "github.event.inputs.deployment_target == 'All tests'"
         run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
         continue-on-error: true
 
