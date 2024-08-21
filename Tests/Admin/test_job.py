@@ -12,4 +12,4 @@ class TestJob:
         job_title = GenerateRandomString.generate_random_str_letters(8)
 
         d.select_left_side_menu_item("Admin")
-        j.add_new_job_titles(job_title, "Some desc", "Some note")
+        j.add_new_job_titles(job_title, "Some desc", "Some note", file_name="UploadFileValid.txt")

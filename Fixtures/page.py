@@ -27,12 +27,14 @@ def browser(request) -> Page:
         browser = get_chrome_browser(playwright, request)
         context = get_context(browser, request, 'local')
         page_data = context.new_page()
+        context.tracing.start(snapshots=True, sources=True)
     else:
         browser = get_chrome_browser(playwright, request)
         context = get_context(browser, request, 'local')
         page_data = context.new_page()
     yield page_data
     for context in browser.contexts:
+        context.tracing.stop(path="C:/PythonPlaywrightStudy/OrangeHRM/Tests/trace.zip")
         context.close()
     browser.close()
     playwright.stop()
