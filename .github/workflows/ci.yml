@@ -91,7 +91,7 @@ jobs:
 
       - name: All tests
         if: "github.event.inputs.deployment_target == 'All tests'"
-        run: pytest -v .\Tests --disable-warnings --alluredir=allure-results
+        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
         continue-on-error: true
 
       - name: Store allure results
