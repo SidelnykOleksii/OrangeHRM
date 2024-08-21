@@ -89,3 +89,9 @@ def get_context(browser, request, start) -> BrowserContext:
 @pytest.fixture(scope="function")
 def return_back(browser):
     browser.go_back()
+
+
+# @pytest.fixture(scope="function")
+# def console_message(browser, page: Page):
+#     page.on("console", lambda msg: print(f"error: {msg.text}") if msg.type == "error" else None)
+#     yield page

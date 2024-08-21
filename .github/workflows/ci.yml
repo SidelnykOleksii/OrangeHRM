@@ -7,6 +7,9 @@ name: CI for OrangeHRM
 #  schedule:
 #    - cron: '0 0 * * *'  # Запуск кожного дня о півночі
 on:
+  schedule:
+    - cron: "0 18 * * *"
+
   workflow_dispatch:
     inputs:
       deployment_target:
@@ -25,7 +28,14 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - name: Daily regression all
+            target: All tests
+          - name: Manual
+            target: ${{inputs.deployment_target}}
 
     steps:
       - name: Checkout repository
@@ -47,13 +57,12 @@ jobs:
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
 
-      - name: Smoke tests
-        if: "github.event.inputs.deployment_target == 'Smoke tests'"
-        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
-        continue-on-error: true
-      - name: All tests
-        if: "github.event.inputs.deployment_target == 'All tests'"
-        run: pytest -v .\Tests --disable-warnings --alluredir=allure-results
+      - name: Run tests
+        run: |
+          if ["${{ matrix.target }}" == "Smoke tests"]; then
+          pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
+          elif ["${{ matrix.target }}" == "All tests"]; then
+          pytest -v .\Tests --disable-warnings --alluredir=allure-results
         continue-on-error: true
       - name: Store allure results  # Дозволяє скачати в наступій джобі результати виконання тестів. Це артефакт джоби test.
         uses: actions/upload-artifact@v4
@@ -64,7 +73,7 @@ jobs:
           retention-days: 1
 
   generate-report:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: test
     name: Generate report
     steps:
@@ -85,7 +94,7 @@ jobs:
           retention-days: 1
 
   publish_report:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: generate-report
     name: Report publication
     steps:
