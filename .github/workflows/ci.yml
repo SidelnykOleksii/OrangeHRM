@@ -58,11 +58,11 @@ jobs:
         run: python -m playwright install --with-deps
 
       - name: Run smoke tests
-        if: ${{ matrix.target == Smoke tests }}
+        if: ${{ matrix.target == 'Smoke tests' }}
         run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
         continue-on-error: true
       - name: Run all tests
-        if: ${{ matrix.target == All tests }}
+        if: ${{ matrix.target == 'All tests' }}
         run: pytest -v .\Tests --disable-warnings --alluredir=allure-results
         continue-on-error: true
       - name: Store allure results  # Дозволяє скачати в наступій джобі результати виконання тестів. Це артефакт джоби test.
