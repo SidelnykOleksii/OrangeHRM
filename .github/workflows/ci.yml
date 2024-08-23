@@ -1,14 +1,8 @@
 name: CI for OrangeHRM
 
-#on:
-#  push:
-#    branches:
-#      - playwright_async_api
-#  schedule:
-#    - cron: '0 0 * * *'  # Запуск кожного дня о півночі
 on:
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "0 15 * * *"
 
   workflow_dispatch:
     inputs:
@@ -29,7 +23,7 @@ permissions:
 jobs:
   daily_regression_all_tests:
     if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,7 +56,7 @@ jobs:
 
   manual_tests:
     if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -97,37 +91,37 @@ jobs:
           path: allure-results
           retention-days: 1
 
-  generate-report:
-    runs-on: ubuntu-latest
-    needs: [daily_regression_all_tests, manual_tests]
-    if: needs.daily_regression_all_tests.result == 'success' || needs.manual_tests.result == 'success'
-    name: Generate report
-    steps:
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'microsoft' # See 'Supported distributions' for available options
-          java-version: '17'
-      - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz && sudo tar -zxvf allure-2.23.1.tgz -C /opt/ && sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
-      - run: allure generate -c allure-results -o _site
-      - name: Store generated report
-        uses: actions/upload-artifact@v3
-        with:
-          name: _site
-          path:
-            _site
-          retention-days: 1
-
-  publish_report:
-    runs-on: ubuntu-latest
-    needs: generate-report
-    name: Report publication
-    steps:
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1.2.9
+#  generate-report:
+#    runs-on: ubuntu-latest
+#    needs: [daily_regression_all_tests, manual_tests]
+#    if: needs.daily_regression_all_tests.result == 'success' || needs.manual_tests.result == 'success'
+#    name: Generate report
+#    steps:
+#      - uses: actions/setup-java@v3
+#        with:
+#          distribution: 'microsoft' # See 'Supported distributions' for available options
+#          java-version: '17'
+#      - run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz && sudo tar -zxvf allure-2.23.1.tgz -C /opt/ && sudo ln -s /opt/allure-2.23.1/bin/allure /usr/bin/allure
+#      - name: Download all workflow run artifacts
+#        uses: actions/download-artifact@v3
+#      - run: allure generate -c allure-results -o _site
+#      - name: Store generated report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: _site
+#          path:
+#            _site
+#          retention-days: 1
+#
+#  publish_report:
+#    runs-on: ubuntu-latest
+#    needs: generate-report
+#    name: Report publication
+#    steps:
+#      - name: Download all workflow run artifacts
+#        uses: actions/download-artifact@v3
+#      - name: Upload Pages artifact
+#        uses: actions/upload-pages-artifact@v2
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v1.2.9
