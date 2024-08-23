@@ -88,5 +88,5 @@ tests/build
 tests/qaseio.lock
 
 # Report
-report/
-report.xml
+Report/
+trace.zip
