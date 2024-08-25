@@ -48,7 +48,7 @@ class DefaultPageObjects(Base):
     def get_default_left_side_menu_items(self):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
         count = self.page.locator(LEFT_SIDE_MENU_ITEMS).count()
-        assert count == 10
+        assert count == 12
 
     def select_left_side_menu_item(self, item_name: str):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
