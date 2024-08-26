@@ -10,6 +10,7 @@ def pytest_addoption(parser):
     parser.addoption('--slow', action='store', default=200, help='Choose slow_mo for robot action')
     parser.addoption('--t', action='store', default=10000, help='Choose timeout')
     parser.addoption('--l', action='store', default='en_GB', help='Choose locale')
+    parser.addoption('--env', action='store', default="local", help="Environment (local or ci)")
 
 
 @pytest.fixture(scope='class')
