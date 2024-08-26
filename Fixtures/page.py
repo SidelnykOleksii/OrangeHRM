@@ -10,7 +10,6 @@ def pytest_addoption(parser):
     parser.addoption('--slow', action='store', default=200, help='Choose slow_mo for robot action')
     parser.addoption('--t', action='store', default=10000, help='Choose timeout')
     parser.addoption('--l', action='store', default='en_GB', help='Choose locale')
-    parser.addoption('--env', action='store', default="local", help="Environment (local or ci)")
 
 
 @pytest.fixture(scope='class')
@@ -35,7 +34,7 @@ def browser(request) -> Page:
         page_data = context.new_page()
     yield page_data
     for context in browser.contexts:
-        context.tracing.stop(path="C:/PythonPlaywrightStudy/OrangeHRM/Tests/trace.zip")
+        context.tracing.stop(path="C:/PythonPlaywrightStudy/OrangeHRM/trace.zip")
         context.close()
     browser.close()
     playwright.stop()
