@@ -1,123 +1,123 @@
-#name: CI for OrangeHRM
-#
-#on:
-#  schedule:
-#    - cron: "0 15 * * *"
-#
-#  workflow_dispatch:
-#    inputs:
-#      deployment_target:
-#        description: Choose target
-#        required: true
-#        default: Smoke tests
-#        type: choice
-#        options:
-#          - Smoke tests
-#          - All tests
-#
-#permissions:
-#  contents: read
-#  pages: write
-#  id-token: write
-#
-#jobs:
-#  daily_regression_all_tests:
-#    if: github.event_name == 'schedule'
-#    runs-on: windows-latest
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#        with:
-#          node-version: '20'
-#
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.12.1'
-#          node-version: '20'
-#
-#      - name: Install dependencies
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#
-#      - name: Ensure browsers are installed
-#        run: python -m playwright install --with-deps
-#      - name: Run all tests
-#        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
-#        continue-on-error: true
-#      - name: Store allure results  # Дозволяє звантажити в наступній job результати виконання тестів. Це артефакт джоби test.
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: allure-results
-#          path:
-#            allure-results
-#          retention-days: 1
-#
-#  manual_tests:
-#    if: github.event_name == 'workflow_dispatch'
-#    runs-on: windows-latest
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.12.1'
-#
-#      - name: Install dependencies
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#
-#      - name: Ensure browsers are installed
-#        run: python -m playwright install --with-deps
-#
-#      - name: Smoke tests
-#        if: "github.event.inputs.deployment_target == 'Smoke tests'"
-#        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
-#        continue-on-error: true
-#
-#      - name: All tests
-#        if: "github.event.inputs.deployment_target == 'All tests'"
-#        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
-#        continue-on-error: true
-#
-#      - name: Store allure results
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: allure-results
-#          path: allure-results
-#          retention-days: 1
-#
-#  generate_report:
-#    runs-on: windows-latest
-#    needs:
-#      - daily_regression_all_tests
-#      - manual_tests
-#    if: needs.daily_regression_all_tests.result == 'success' || needs.manual_tests.result == 'success'
-#    name: Generate report
-#    steps:
-#      - uses: actions/setup-java@v3
-#        with:
-#          distribution: 'microsoft' # See 'Supported distributions' for available options
-#          java-version: '17'
-#      - run: |
-#          Invoke-WebRequest -Uri https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip -OutFile allure-2.23.1.zip
-#          Expand-Archive -Path allure-2.23.1.zip -DestinationPath C:\allure
-#          [Environment]::SetEnvironmentVariable('Path', $Env:Path + ';C:\allure\allure-2.23.1\bin', [System.EnvironmentVariableTarget]::Machine)
-#      - name: Download all workflow run artifacts
-#        uses: actions/download-artifact@v3
-#      - run: allure generate -c allure-results -o _site
-#
-#      - name: Store generated report
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: _site
-#          path:
-#            _site
-#          retention-days: 1
+name: CI for OrangeHRM
+
+on:
+  schedule:
+    - cron: "0 15 * * *"
+
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default: Smoke tests
+        type: choice
+        options:
+          - Smoke tests
+          - All tests
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  daily_regression_all_tests:
+    if: github.event_name == 'schedule'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          node-version: '20'
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.1'
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ensure browsers are installed
+        run: python -m playwright install --with-deps
+      - name: Run all tests
+        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
+        continue-on-error: true
+      - name: Store allure results  # Дозволяє звантажити в наступній job результати виконання тестів. Це артефакт джоби test.
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path:
+            allure-results
+          retention-days: 1
+
+  manual_tests:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.1'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ensure browsers are installed
+        run: python -m playwright install --with-deps
+
+      - name: Smoke tests
+        if: "github.event.inputs.deployment_target == 'Smoke tests'"
+        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
+        continue-on-error: true
+
+      - name: All tests
+        if: "github.event.inputs.deployment_target == 'All tests'"
+        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
+        continue-on-error: true
+
+      - name: Store allure results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 1
+
+  generate_report:
+    runs-on: windows-latest
+    needs:
+      - daily_regression_all_tests
+      - manual_tests
+    if: needs.daily_regression_all_tests.result == 'success' || needs.manual_tests.result == 'success'
+    name: Generate report
+    steps:
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'microsoft' # See 'Supported distributions' for available options
+          java-version: '17'
+      - run: |
+          Invoke-WebRequest -Uri https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip -OutFile allure-2.23.1.zip
+          Expand-Archive -Path allure-2.23.1.zip -DestinationPath C:\allure
+          [Environment]::SetEnvironmentVariable('Path', $Env:Path + ';C:\allure\allure-2.23.1\bin', [System.EnvironmentVariableTarget]::Machine)
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+      - run: allure generate -c allure-results -o _site
+
+      - name: Store generated report
+        uses: actions/upload-artifact@v3
+        with:
+          name: _site
+          path:
+            _site
+          retention-days: 1
 #
 #  publish_report:
 #    runs-on: windows-latest
