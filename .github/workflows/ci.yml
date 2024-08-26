@@ -91,7 +91,7 @@ jobs:
           path: allure-results
           retention-days: 1
 
-  generate-report:
+  generate_report:
     runs-on: windows-latest
     needs:
       - daily_regression_all_tests
@@ -121,8 +121,8 @@ jobs:
 
   publish_report:
     runs-on: windows-latest
-    needs: generate-report
-    if: needs.generate-report == success
+    needs: generate_report
+    if: needs.generate_report.result == 'success'
     name: Report publication
     steps:
       - name: Download all workflow run artifacts
