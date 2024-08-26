@@ -93,10 +93,7 @@ jobs:
 
   generate_report:
     runs-on: windows-latest
-    needs:
-      - daily_regression_all_tests
-      - manual_tests
-    if: needs.daily_regression_all_tests.result == 'success' || needs.manual_tests.result == 'success'
+    needs: daily_regression_all_tests || manual_tests
     name: Generate report
     steps:
       - uses: actions/setup-java@v3
