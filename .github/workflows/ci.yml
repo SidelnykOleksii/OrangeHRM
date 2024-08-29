@@ -93,7 +93,7 @@ jobs:
 
   generate_report:
     runs-on: windows-latest
-    needs: daily_regression_all_tests || manual_tests
+    needs: daily_regression_all_tests
     name: Generate report
     steps:
       - uses: actions/setup-java@v3
