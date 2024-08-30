@@ -23,7 +23,7 @@ permissions:
 jobs:
   daily_regression_all_tests:
     if: github.event_name == 'schedule'
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -56,7 +56,7 @@ jobs:
 
   manual_tests:
     if: github.event_name == 'workflow_dispatch'
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -92,7 +92,7 @@ jobs:
           retention-days: 1
 
   generate_report:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: manual_tests
     name: Generate report
     steps:
