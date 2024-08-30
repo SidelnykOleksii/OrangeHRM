@@ -100,10 +100,6 @@ jobs:
         with:
           distribution: 'microsoft' # See 'Supported distributions' for available options
           java-version: '17'
-#      - run: |
-#          Invoke-WebRequest -Uri https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip -OutFile allure-2.23.1.zip
-#          Expand-Archive -Path allure-2.23.1.zip -DestinationPath C:\allure
-#          [Environment]::SetEnvironmentVariable('Path', $Env:Path + ';C:\allure\allure-2.23.1\bin', [System.EnvironmentVariableTarget]::Machine)
 
       - name: Load test report history
         uses: actions/checkout@v3
@@ -125,32 +121,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN}}
           publish_branch: gh-pages
           publish_dir: allure-history
-
-#      - name: Store generated report
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: _site
-#          path:
-#            _site
-#          retention-days: 1
-#
-#  publish_report:
-#    runs-on: windows-latest
-#    needs: generate_report
-#    if: needs.generate_report.result == 'success'
-#    name: Report publication
-#    steps:
-#      - name: Download all workflow run artifacts
-#        uses: actions/download-artifact@v3
-#
-#      - name: Upload Pages artifact
-#        uses: actions/upload-pages-artifact@v2
-#        with:
-#          path: _site
-#
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v1.2.9
