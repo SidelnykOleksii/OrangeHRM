@@ -93,28 +93,49 @@ jobs:
 
   generate_report:
     runs-on: windows-latest
-    needs: daily_regression_all_tests
+    needs: manual_tests
     name: Generate report
     steps:
       - uses: actions/setup-java@v3
         with:
           distribution: 'microsoft' # See 'Supported distributions' for available options
           java-version: '17'
-      - run: |
-          Invoke-WebRequest -Uri https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip -OutFile allure-2.23.1.zip
-          Expand-Archive -Path allure-2.23.1.zip -DestinationPath C:\allure
-          [Environment]::SetEnvironmentVariable('Path', $Env:Path + ';C:\allure\allure-2.23.1\bin', [System.EnvironmentVariableTarget]::Machine)
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
-      - run: allure generate -c allure-results -o _site
+#      - run: |
+#          Invoke-WebRequest -Uri https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.zip -OutFile allure-2.23.1.zip
+#          Expand-Archive -Path allure-2.23.1.zip -DestinationPath C:\allure
+#          [Environment]::SetEnvironmentVariable('Path', $Env:Path + ';C:\allure\allure-2.23.1\bin', [System.EnvironmentVariableTarget]::Machine)
 
-      - name: Store generated report
-        uses: actions/upload-artifact@v3
+      - name: Load test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
         with:
-          name: _site
-          path:
-            _site
-          retention-days: 1
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_history: allure-history
+          allure_results: build/allure-results
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+#      - name: Store generated report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: _site
+#          path:
+#            _site
+#          retention-days: 1
 #
 #  publish_report:
 #    runs-on: windows-latest
