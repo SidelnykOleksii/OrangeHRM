@@ -1,11 +1,14 @@
+from __future__ import annotations
+
 import allure
-from playwright.sync_api import Page, TimeoutError, Response
+from playwright.sync_api import Page, Response, expect
 from Data.environment import host
 
-
+HEADER = "//header[@class='oxd-topbar']"
 DROPDOWN = "//nav[@class='oxd-topbar-body-nav']/ul/li//span"
 MENU_ITEM = "//ul[@class='oxd-dropdown-menu']/li/a"
 SAVE_BUTTON = "//div/button[@type='submit']"
+
 
 class Base:
     def __init__(self, page: Page):
@@ -41,3 +44,8 @@ class Base:
             self.click(locator)
         file_chooser = fc_info.value
         file_chooser.set_files(file_path)
+
+    def assert_header_is_visible(self):
+        self.page.wait_for_load_state('domcontentloaded')
+        loc = self.page.locator(HEADER)
+        expect(loc).to_be_visible()
