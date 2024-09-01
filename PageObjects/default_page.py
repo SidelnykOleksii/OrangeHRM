@@ -53,7 +53,6 @@ class DefaultPageObjects(Base):
     def select_left_side_menu_item(self, item_name: str):
         self.page.wait_for_selector(LEFT_SIDE_MENU_ITEMS)
         self.page.get_by_role("link", name=item_name).click()
-        # self.page.locator(f"{LEFT_SIDE_MENU_ITEM} and text() = {item_name}").click()
 
     def log_out(self):
         if self.page.is_visible(USER_DETAILS_DROPDOWN):
