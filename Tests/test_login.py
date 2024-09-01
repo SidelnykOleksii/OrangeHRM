@@ -20,6 +20,11 @@ class TestLogin:
         l = LoginPage(browser)
         l.user_login()
 
+    @mark.parametrize(**missed_required_filed)
+    def test_required_fields(self, browser, login, password):
+        l = LoginPage(browser)
+        l.login_empty_fields(login, password)
+
     @allure.title('User can not log in with invalid username')
     def test_login_invalid_username(self, browser):
         l = LoginPage(browser)
@@ -29,8 +34,3 @@ class TestLogin:
     def test_login_invalid_password(self, browser):
         l = LoginPage(browser)
         l.login_invalid_data(Constants.login, "invalidpass")
-
-    @mark.parametrize(**missed_required_filed)
-    def test_required_fields(self, browser, login, password):
-        l = LoginPage(browser)
-        l.login_empty_fields(login, password)

@@ -22,7 +22,9 @@ class LoginPage(Base):
         self.input(USERNAME_FIELD, Constants.login)
         self.input(PASSWORD_FIELD, Constants.password)
         self.click(SUBMIT_BUTTON)
-        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index", "Wrong URL")
+        self.assertions.check_url("https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index",
+                                  "Wrong URL")
+        self.assert_header_is_visible()
 
     @allure.step
     def login_invalid_data(self, username: str, password: str):
