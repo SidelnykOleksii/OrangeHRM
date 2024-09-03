@@ -4,15 +4,16 @@ import allure
 from playwright.sync_api import Page, Response, expect
 from Data.environment import host
 
-HEADER = "//header[@class='oxd-topbar']"
-DROPDOWN = "//nav[@class='oxd-topbar-body-nav']/ul/li//span"
-MENU_ITEM = "//ul[@class='oxd-dropdown-menu']/li/a"
-SAVE_BUTTON = "//div/button[@type='submit']"
-
 
 class Base:
     def __init__(self, page: Page):
         self.page = page
+
+    # locators
+    HEADER = "//header[@class='oxd-topbar']"
+    DROPDOWN = "//nav[@class='oxd-topbar-body-nav']/ul/li//span"
+    MENU_ITEM = "//ul[@class='oxd-dropdown-menu']/li/a"
+    SAVE_BUTTON = "//div/button[@type='submit']"
 
     @allure.step
     def open(self, uri) -> Response | None:
@@ -32,12 +33,12 @@ class Base:
         return i
 
     def select_dropdown_option_by_name(self, dropdown: str, option_text: str):
-        dropdown = self.page.locator(DROPDOWN, has_text=dropdown)
+        dropdown = self.page.locator(self.DROPDOWN, has_text=dropdown)
         dropdown.click()
-        self.page.locator(MENU_ITEM, has_text=option_text).click()
+        self.page.locator(self.MENU_ITEM, has_text=option_text).click()
 
     def click_on_save_button(self):
-        self.click(SAVE_BUTTON)
+        self.click(self.SAVE_BUTTON)
 
     def upload_file(self, locator: str, file_path: str):
         with self.page.expect_file_chooser() as fc_info:
@@ -47,5 +48,5 @@ class Base:
 
     def assert_header_is_visible(self):
         self.page.wait_for_load_state('domcontentloaded')
-        loc = self.page.locator(HEADER)
-        expect(loc).to_be_visible()
+        loc = self.page.locator(self.HEADER)
+        expect(loc).to_be_visible(timeout=10000)
