@@ -8,8 +8,9 @@ from Data.variables import PathToTestFiles, PageUrls
 ADD_JOB_TITLE = "//div[@class='orangehrm-header-container']//button"
 
 # text fields
-JOB_TITLE_FIELD = "form > div:nth-child(1) > div > div:nth-child(2) > input"
-JOB_DESCRIPTION_FIELD = "form > div:nth-child(2) > div > div:nth-child(2) > textarea"
+JOB_TITLE_FIELD = "//label[text()='Job Title']/ancestor::div[contains(@class, 'input-field-bottom-space')]//input"
+JOB_DESCRIPTION_FIELD = "//label[text()='Job Description']/ancestor::" \
+                        "div[contains(@class, 'input-field-bottom-space')]//textarea"
 
 # other
 JOB_SPECIFICATION_INPUT = "//div[@class='oxd-file-input-div']"

@@ -1,4 +1,4 @@
-import pytest
+
 class PathToTestFiles:
     @staticmethod
     def upload_file_valid():

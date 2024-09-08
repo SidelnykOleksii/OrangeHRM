@@ -10,7 +10,7 @@ class TestUserManagement:
         a = AdminPage(browser)
         d = DefaultPageObjects(browser)
         username = GenerateRandomString.generate_random_str_letters(8)
-        password = GenerateRandomString.generate_random_str_letters_and_digits(10)
+        password = GenerateRandomString.generate_random_str_letters_and_digits(12)
 
         d.select_left_side_menu_item("Admin")
         a.add_new_user(user_role="Admin", employee_name="First Middle Last", username=username, password=password,
