@@ -15,9 +15,9 @@ class AdminPage(Base):
     SAVE_NEW_USER_BUTTON = "//button[text()[contains(.,'Save')]]"
 
     # fields
-    USERNAME_FIELD = "div > div:nth-child(4) > div > div:nth-child(2) > input"
-    PASSWORD_FIELD = "div > div.oxd-grid-item.oxd-grid-item--gutters.user-password-cell > div > div:nth-child(2) > input"
-    CONFIRM_PASSWORD_FIELD = "div.oxd-form-row.user-password-row > div > div:nth-child(2) > div > div:nth-child(2) > input"
+    USERNAME_FIELD = "//label[text()='Username']/ancestor::div[contains(@class, 'input-field')]//input"
+    PASSWORD_FIELD = "//label[text()='Password']/ancestor::div[contains(@class, 'input-field')]//input"
+    CONFIRM_PASSWORD_FIELD = "//label[text()='Confirm Password']/ancestor::div[contains(@class, 'input-field')]//input"
 
     def select_user_role(self, user_role: str):
         self.page.get_by_text("-- Select --").first.click()

@@ -24,10 +24,9 @@ class DefaultPageObjects(Base):
     LEFT_SIDE_MENU_ITEM = "//ul[@class='oxd-main-menu']/li//span"
 
     # About pop-up
-    ABOUT_POP_UP = '//div[@class="oxd-sheet oxd-sheet--rounded oxd-sheet--white oxd-dialog-sheet oxd-dialog-sheet--' \
-                   'shadow oxd-dialog-sheet--gutters"]'
+    ABOUT_POP_UP = '//div[contains(@class, "shadow oxd-dialog-sheet--gutters")]'
     ABOUT_POP_UP_TITLE_ITEMS = '//div//p[@class="oxd-text oxd-text--p orangehrm-about-title"]'
-    ABOUT_POP_UP_CLOSE_BUTTON = "//button[@class='oxd-dialog-close-button oxd-dialog-close-button-position']"
+    ABOUT_POP_UP_CLOSE_BUTTON = "//button[contains(@class, 'oxd-dialog-close-button-position')]"
 
     about_pop_up_expected_items = ['Company Name:', 'Version:', 'Active Employees:', 'Employees Terminated:']
 
