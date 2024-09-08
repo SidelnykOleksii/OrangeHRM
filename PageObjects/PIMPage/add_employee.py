@@ -16,7 +16,7 @@ class PimPage(Base):
 
     # buttons
     ADD_EMPLOYEE_BUTTON = "//button[@class='oxd-button oxd-button--medium oxd-button--secondary']"
-    ADD_EMPLOYEE_SAVE_BUTTON = "//button[@class='oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space']"
+    ADD_EMPLOYEE_SAVE_BUTTON = "//button[contains(@class, 'oxd-button--secondary orangehrm-left-space')]"
 
     # other
     EDIT_EMPLOYEE_IMAGE = "//div[@class='orangehrm-edit-employee-image']"

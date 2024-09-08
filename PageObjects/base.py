@@ -6,6 +6,10 @@ from Data.environment import host
 
 
 class Base:
+    """
+    A base class that provides common actions for interacting with web elements using the Playwright library.
+    Attributes: page (Page): The Playwright page instance for browser interaction.
+    """
     def __init__(self, page: Page):
         self.page = page
 
