@@ -51,6 +51,6 @@ class Base:
         file_chooser.set_files(file_path)
 
     def assert_header_is_visible(self):
-        self.page.wait_for_load_state('domcontentloaded')
+        self.page.wait_for_load_state('domcontentloaded', timeout=5000)
         loc = self.page.locator(self.HEADER)
-        expect(loc).to_be_visible(timeout=10000)
+        expect(loc).to_be_visible(timeout=5000)

@@ -72,16 +72,9 @@ def get_context(browser, request, start) -> BrowserContext:
         context.set_default_timeout(
             timeout=request.config.getoption('t')
         )
-        # context.add_cookies([{'url': 'https://example.ru', 'name': 'ab_test', 'value': 'd'}]) add cookies if needed
         return context
 
 
 @pytest.fixture(scope="function")
 def return_back(browser):
     browser.go_back()
-
-
-# @pytest.fixture(scope="function")
-# def console_message(browser, page: Page):
-#     page.on("console", lambda msg: print(f"error: {msg.text}") if msg.type == "error" else None)
-#     yield page
