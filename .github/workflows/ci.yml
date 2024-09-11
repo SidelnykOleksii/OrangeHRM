@@ -44,7 +44,7 @@ jobs:
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
       - name: Run all tests
-        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results
+        run: pytest -v ./Tests --disable-warnings --alluredir=allure-results --bn=remote_chrome
         continue-on-error: true
       - name: Store allure results  # Дозволяє звантажити в наступній job результати виконання тестів. Це артефакт джоби test.
         uses: actions/upload-artifact@v4
@@ -76,7 +76,7 @@ jobs:
 
       - name: Smoke tests
         if: "github.event.inputs.deployment_target == 'Smoke tests'"
-        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results
+        run: pytest -m "smoke" -v --disable-warnings --alluredir=allure-results --bn=remote_chrome
         continue-on-error: true
 
       - name: All tests

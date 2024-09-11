@@ -46,7 +46,7 @@ class DefaultPageObjects(Base):
         actual_count = self.page.locator(self.LEFT_SIDE_MENU_ITEMS).count()
         assert actual_count == expected_count
 
-    def get_default_left_side_menu_items(self):
+    def assert_default_left_side_menu_items(self):
         self.page.wait_for_selector(self.LEFT_SIDE_MENU_ITEMS)
         count = self.page.locator(self.LEFT_SIDE_MENU_ITEMS).count()
         assert count == 12
