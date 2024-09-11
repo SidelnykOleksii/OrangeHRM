@@ -4,6 +4,15 @@ from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
 
 @pytest.fixture(scope='class')
 def browser(request) -> Page:
+    """Provides a browser instance for testing based on configuration options.
+
+    This fixture manages the lifecycle of a Playwright browser instance
+    throughout the test class. It takes into account the `bn` pytest configuration
+    option to determine which browser to launch (remote Chrome, Firefox, or local Chrome).
+
+    Yields:
+        playwright.sync_api.Page: A new browser page instance.
+    """
     playwright = sync_playwright().start()
     if request.config.getoption("bn") == 'remote_chrome':
         browser = get_remote_chrome(playwright, request)
@@ -24,7 +33,8 @@ def browser(request) -> Page:
         page_data = context.new_page()
     yield page_data
     for context in browser.contexts:
-        context.tracing.stop(path="C:/PythonPlaywrightStudy/OrangeHRM/trace.zip")
+        if request.config.getoption("bn") != 'remote_chrome':
+            context.tracing.stop(path="C:/PythonPlaywrightStudy/OrangeHRM/trace.zip")
         context.close()
     browser.close()
     playwright.stop()
@@ -53,6 +63,16 @@ def get_remote_chrome(playwright, request) -> Browser:
 
 
 def get_context(browser, request, start) -> BrowserContext:
+    """Creates a new browser context based on the specified start type.
+
+    This function is responsible for setting up a new browser context with appropriate
+    configurations based on the provided `start` parameter. It handles both local and
+    remote context creation.
+     Args:
+        browser (playwright.sync_api.Browser): The parent browser instance.
+        request (pytest.FixtureRequest): The pytest fixture request object.
+        start (str): The type of context to create, either 'local' or 'remote'.
+    """
     if start == 'local':
         context = browser.new_context(
             no_viewport=True,
