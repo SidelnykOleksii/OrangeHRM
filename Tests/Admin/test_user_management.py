@@ -15,3 +15,4 @@ class TestUserManagement:
         d.select_left_side_menu_item("Admin")
         a.add_new_user(user_role="Admin", employee_name="First Middle Last", username=username, password=password,
                        confirm_pass=password, status="Enabled")
+        a.delete_user_by_name(username=username)

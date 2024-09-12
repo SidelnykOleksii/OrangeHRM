@@ -1,4 +1,4 @@
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 from PageObjects.base import Base
 from Data.assertions import Assertions
 from Data.variables import PageUrls
@@ -18,6 +18,10 @@ class AdminPage(Base):
     USERNAME_FIELD = "//label[text()='Username']/ancestor::div[contains(@class, 'input-field')]//input"
     PASSWORD_FIELD = "//label[text()='Password']/ancestor::div[contains(@class, 'input-field')]//input"
     CONFIRM_PASSWORD_FIELD = "//label[text()='Confirm Password']/ancestor::div[contains(@class, 'input-field')]//input"
+
+    # table
+    TABLE_BODY = "//div[@class='oxd-table-body']"
+    TABLE_NAME_CELL = "//div[text()='{}']"
 
     def select_user_role(self, user_role: str):
         self.page.get_by_text("-- Select --").first.click()
@@ -41,20 +45,42 @@ class AdminPage(Base):
     def confirm_pass(self, confirm_pass: str):
         self.input(self.CONFIRM_PASSWORD_FIELD, confirm_pass)
 
-    def delete_user_by_name(self, name: str):  # doesn't work correctly, need to check the locators
-        self.page.wait_for_selector("//div[@class='oxd-table-card']")
-        try:
-            rows = self.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']").all()
-            for row in rows:
-                if row.text_content() == name:
-                    delete_button = row.locator("//i[@class='oxd-icon bi-trash']")
-                    delete_button.click()
-                    self.page.get_by_role("button", name=" Yes, Delete").click()
-                    break
-            else:
-                print(f"Row with '{name}' is not found")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+    def delete_user_by_name(self, username: str):
+        self.page.wait_for_load_state("domcontentloaded")
+        rows = self.page.locator(self.TABLE_BODY)
+        for i in range(rows.count()):
+            row = rows.nth(i)
+            row_by_name = row.locator(f"{self.TABLE_NAME_CELL.format(username)}"
+                                      f"/ancestor::div[contains(@class, 'oxd-table-row')]")
+            try:
+                delete_button = row_by_name.locator("//i[@class='oxd-icon bi-trash']")
+                delete_button.click()
+                self.page.get_by_role("button", name=" Yes, Delete").click()
+                self.page.wait_for_load_state("domcontentloaded")
+
+                expect(row_by_name).not_to_be_visible()
+                return
+            except Exception as e:
+                print(f"Error finding user {username}: {e}")
+
+        raise AssertionError(f"User {username} still exists in the table")
+
+    def assert_user_exists_in_the_table(self, username: str):
+        self.page.wait_for_load_state("domcontentloaded")
+        self.page.wait_for_timeout(timeout=1000)
+        rows = self.page.locator(self.TABLE_BODY)
+
+        for i in range(rows.count()):
+            row = rows.nth(i)
+            name_locator = row.locator(self.TABLE_NAME_CELL.format(username))
+            try:
+                expect(name_locator).to_have_count(1)
+                expect(name_locator).to_be_visible()
+                return
+            except Exception as e:
+                print(f"Error finding user {username}: {e}")
+
+        raise AssertionError(f"User {username} not found")
 
     def add_new_user(self, user_role, employee_name, username, password, confirm_pass, status):
         self.click(self.ADD_USER_BUTTON)
@@ -67,4 +93,4 @@ class AdminPage(Base):
         self.click(self.SAVE_NEW_USER_BUTTON)
         self.assertions.check_url(uri=PageUrls.page_urls()["view_system_users_page"],
                                   msg="Wrong URL")
-        # need to add a check for displaying the user in the list
+        self.assert_user_exists_in_the_table(username)
