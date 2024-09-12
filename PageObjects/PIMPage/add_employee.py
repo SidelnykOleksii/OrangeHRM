@@ -13,6 +13,7 @@ class PimPage(Base):
     ADD_EMPLOYEE_FIRST_NAME = "//div/input[@name='firstName']"
     ADD_EMPLOYEE_MIDDLE_NAME = "//div/input[@name='middleName']"
     ADD_EMPLOYEE_LAST_NAME = "//div/input[@name='lastName']"
+    EMPLOYEE_ID = "//label[text()='Employee Id']/ancestor::div[contains(@class, 'input-field-bottom-space')]//input"
 
     # buttons
     ADD_EMPLOYEE_BUTTON = "//button[@class='oxd-button oxd-button--medium oxd-button--secondary']"
@@ -26,5 +27,6 @@ class PimPage(Base):
         self.input(self.ADD_EMPLOYEE_FIRST_NAME, first_name)
         self.input(self.ADD_EMPLOYEE_MIDDLE_NAME, middle_name)
         self.input(self.ADD_EMPLOYEE_LAST_NAME, last_name)
+        self.input(self.EMPLOYEE_ID, '')
         self.click(self.ADD_EMPLOYEE_SAVE_BUTTON)
         self.assertions.check_presence(self.EDIT_EMPLOYEE_IMAGE)
