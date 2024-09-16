@@ -15,4 +15,20 @@ class TestUserManagement:
         d.select_left_side_menu_item("Admin")
         a.add_new_user(user_role="Admin", employee_name="First Middle Last", username=username, password=password,
                        confirm_pass=password, status="Enabled")
-        a.delete_user_by_name(username=username)
+        a.delete_user_by_name(username=username)  # create test teardown and delete user using API
+
+    def test_edit_user(self, browser, add_user):
+        a = AdminPage(browser)
+        username = add_user
+        edited_username = GenerateRandomString.generate_random_str_letters(8)
+
+        a.open_edit_user_form(username)
+        a.edit_required_user_data(user_role="ESS", status="Disabled", edited_username=edited_username)
+        a.verify_user_data_in_the_table(username=edited_username, user_role="ESS", status="Disabled",
+                                        employee="First Last")
+
+    def test_delete_user(self, browser, add_user):
+        a = AdminPage(browser)
+        username = add_user
+
+        a.delete_user_by_name(username)

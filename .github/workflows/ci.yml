@@ -46,7 +46,7 @@ jobs:
       - name: Run all tests
         run: pytest -v ./Tests --disable-warnings --alluredir=allure-results --bn=remote_chrome
         continue-on-error: true
-      - name: Store allure results  # Дозволяє звантажити в наступній job результати виконання тестів. Це артефакт джоби test.
+      - name: Store allure results
         uses: actions/upload-artifact@v4
         with:
           name: allure-results

@@ -7,7 +7,8 @@ pytest_plugins = [
     'Fixtures.user_auth',
     'Fixtures.requests',
     'Fixtures.employees',
-    'Fixtures.reporting'
+    'Fixtures.reporting',
+    'Fixtures.users'
 ]
 
 
