@@ -73,7 +73,7 @@ class AdminPage(Base):
 
     def assert_user_exists_in_the_table(self, username: str):
         self.page.wait_for_load_state("domcontentloaded")
-        self.page.wait_for_timeout(timeout=2000)
+        self.page.wait_for_timeout(timeout=2000)  # temporary solution
         name_locator = self.page.locator(self.TABLE_CELL.format(username))
 
         try:
@@ -84,7 +84,7 @@ class AdminPage(Base):
 
     def verify_user_data_in_the_table(self, username, user_role, status, employee):
         self.page.wait_for_load_state("domcontentloaded")
-        self.page.wait_for_timeout(timeout=2000)
+        self.page.wait_for_timeout(timeout=2000)  # temporary solution
 
         row_by_username = self.page.locator(f"{self.TABLE_CELL.format(username)}"
                                             f"/ancestor::div[contains(@class, 'table-row--with-border')]")
