@@ -19,6 +19,17 @@ class Base:
     MENU_ITEM = "//ul[@class='oxd-dropdown-menu']/li/a"
     SAVE_BUTTON = "//div/button[@type='submit']"
 
+    # common table selectors
+    TABLE_CELL = "//div[text()='{}']"
+    EDIT_BUTTON = "//div[@class='oxd-table-cell-actions']/button/i[@class='oxd-icon bi-pencil-fill']"
+    DELETE_BUTTON = "//div[@class='oxd-table-cell-actions']/button/i[@class='oxd-icon bi-trash']"
+    CONFIRM_DELETE_BUTTON = "//div[@class='orangehrm-modal-footer']//button[text()=' Yes, Delete ']"
+    CANCEL_DELETE_BUTTON = "//div[@class='orangehrm-modal-footer']/button[text()=' No, Cancel ']"
+
+    # dropdowns
+    SHOW_DROPDOWN_OPTIONS = "//label[text()='{}']/ancestor::" \
+                            "div[contains(@class, 'input-field-bottom-space')]//div/i"
+
     @allure.step
     def open(self, uri) -> Response | None:
         return self.page.goto(f"{host.get_base_url()}{uri}", wait_until='domcontentloaded')
@@ -54,3 +65,9 @@ class Base:
         self.page.wait_for_load_state('domcontentloaded', timeout=5000)
         loc = self.page.locator(self.HEADER)
         expect(loc).to_be_visible(timeout=5000)
+
+    # common tabel actions
+    def get_table_row_by_name(self, name: str):
+        row_by_name = self.page.locator(f"{self.TABLE_CELL.format(name)}"
+                                        f"/ancestor::div[contains(@class, 'oxd-table-row')]")
+        return row_by_name

@@ -13,5 +13,5 @@ def add_user(browser, add_employee):
 
     d.select_left_side_menu_item("Admin")
     a.add_new_user(user_role="Admin", employee_name="First Middle Last", username=username, password=password,
-                   confirm_pass=password, status="Enabled")
+                   confirm_password=password, status="Enabled")
     return username
