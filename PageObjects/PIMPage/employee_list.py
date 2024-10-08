@@ -1,3 +1,5 @@
+import re
+
 from playwright.sync_api import Page, expect
 from PageObjects.base import Base
 from Data.assertions import Assertions
@@ -24,3 +26,13 @@ class EmployeeList(Base):
             expect(row_by_name).not_to_be_visible()
         except Exception as e:
             raise Exception(f"Error deleting employee{employee_name}: {e}")
+
+    def get_employee_id_from_url(self):
+        # edit employee form should be opened
+        self.page.wait_for_load_state("domcontentloaded")
+        current_url = self.page.url
+        match = re.search(r'empNumber/(\d+)', current_url)
+        if match:
+            return match.group(1)
+        else:
+            raise ValueError("Employee ID not found in the URL")
