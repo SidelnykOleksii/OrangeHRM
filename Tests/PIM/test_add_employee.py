@@ -2,7 +2,7 @@ import pytest
 from PageObjects.PIMPage.add_employee import PimPage
 from PageObjects.PIMPage.employee_list import EmployeeList
 from PageObjects.default_page import DefaultPageObjects
-from API.PIM.employee import APIEmployee
+from API.PIM.api_employee import APIEmployee
 from Data.utilities import Cookies
 
 
