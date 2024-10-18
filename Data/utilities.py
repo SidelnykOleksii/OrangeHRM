@@ -27,6 +27,5 @@ class Cookies:
         for cookie in cookies:
             if cookie['name'] == 'orangehrm':
                 session_cookie_value = cookie['value']
-                print(f"Session cookie value: {session_cookie_value}")
                 return session_cookie_value
         return None

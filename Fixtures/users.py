@@ -5,7 +5,7 @@ from Data.utilities import GenerateRandomString
 
 
 @pytest.fixture(scope="function")
-def add_user(browser, add_employee):
+def add_user(browser, api_add_employee):
     a = AdminPage(browser)
     d = DefaultPageObjects(browser)
     username = GenerateRandomString.generate_random_str_letters(8)
