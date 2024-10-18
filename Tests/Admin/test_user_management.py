@@ -6,7 +6,7 @@ from Data.utilities import GenerateRandomString
 
 @pytest.mark.usefixtures('user_login', 'delete_employee')
 class TestUserManagement:
-    def test_add_new_user(self, browser, add_employee):
+    def test_add_new_user(self, browser, api_add_employee):
         a = AdminPage(browser)
         d = DefaultPageObjects(browser)
         username = GenerateRandomString.generate_random_str_letters(8)
