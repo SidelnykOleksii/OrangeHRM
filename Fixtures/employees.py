@@ -2,7 +2,6 @@ import pytest
 from PageObjects.PIMPage.add_employee import PimPage
 from PageObjects.PIMPage.employee_list import EmployeeList
 from PageObjects.default_page import DefaultPageObjects
-from Data.utilities import Cookies
 from API.PIM.api_employee import APIEmployee
 
 
@@ -25,6 +24,5 @@ def delete_employee(browser):
 
 
 @pytest.fixture(scope="function")
-def api_add_employee(browser):
-    session_cookie = Cookies(browser).get_cookie()
-    APIEmployee.api_create_employee(session_cookie=session_cookie)
+def api_add_employee(browser, get_cookies):
+    APIEmployee.api_create_employee(session_cookie=get_cookies)

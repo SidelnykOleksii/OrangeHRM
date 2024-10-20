@@ -1,7 +1,7 @@
 import pytest
 from PageObjects.AdminPage.user_management import AdminPage
 from PageObjects.default_page import DefaultPageObjects
-from Data.utilities import GenerateRandomString
+from Utilities.helpers import GenerateRandomString
 
 
 @pytest.mark.usefixtures('user_login', 'delete_employee')
@@ -19,7 +19,6 @@ class TestUserManagement:
 
     def test_edit_user(self, browser, add_user):
         a = AdminPage(browser)
-        d = DefaultPageObjects(browser)
         username = add_user
         edited_username = GenerateRandomString.generate_random_str_letters(8)
 

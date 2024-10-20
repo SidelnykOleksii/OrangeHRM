@@ -2,7 +2,7 @@ import allure
 import pytest
 from pytest import mark
 from PageObjects.login import LoginPage
-from Data.constants import Constants
+from Utilities.constants import Constants
 
 
 missed_required_filed = {

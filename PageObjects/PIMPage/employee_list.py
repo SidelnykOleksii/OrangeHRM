@@ -2,7 +2,7 @@ import re
 
 from playwright.sync_api import Page, expect
 from PageObjects.base import Base
-from Data.assertions import Assertions
+from Utilities.assertions import Assertions
 
 
 class EmployeeList(Base):

@@ -1,6 +1,6 @@
 from playwright.sync_api import Page
 from PageObjects.base import Base
-from Data.assertions import Assertions
+from Utilities.assertions import Assertions
 
 
 class PimPage(Base):

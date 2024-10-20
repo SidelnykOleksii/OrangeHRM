@@ -1,7 +1,7 @@
 import pytest
 from PageObjects.AdminPage.job import JobPage
 from PageObjects.default_page import DefaultPageObjects
-from Data.utilities import GenerateRandomString
+from Utilities.helpers import GenerateRandomString
 
 
 @pytest.mark.usefixtures("user_login")

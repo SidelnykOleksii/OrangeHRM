@@ -1,7 +1,7 @@
 from playwright.sync_api import Page, expect
 from PageObjects.base import Base
-from Data.assertions import Assertions
-from Data.variables import PathToTestFiles, PageUrls
+from Utilities.assertions import Assertions
+from Utilities.variables import PathToTestFiles, PageUrls
 
 
 class JobPage(Base):
