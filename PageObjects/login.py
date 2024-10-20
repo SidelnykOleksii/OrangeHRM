@@ -1,8 +1,8 @@
 import allure
 from playwright.sync_api import Page
 from PageObjects.base import Base
-from Data.constants import Constants
-from Data.assertions import Assertions
+from Utilities.constants import Constants
+from Utilities.assertions import Assertions
 
 
 class LoginPage(Base):

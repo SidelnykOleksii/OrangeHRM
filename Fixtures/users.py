@@ -1,7 +1,7 @@
 import pytest
 from PageObjects.AdminPage.user_management import AdminPage
 from PageObjects.default_page import DefaultPageObjects
-from Data.utilities import GenerateRandomString
+from Utilities.helpers import GenerateRandomString
 
 
 @pytest.fixture(scope="function")

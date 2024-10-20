@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import allure
 from playwright.sync_api import Page, Response, expect
-from Data.environment import host
+from Utilities.environment import host
 
 
 class Base:
