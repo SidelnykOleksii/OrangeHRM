@@ -30,7 +30,6 @@ class DefaultPageObjects(Base):
 
     about_pop_up_expected_items = ['Company Name:', 'Version:', 'Active Employees:', 'Employees Terminated:']
 
-    @allure.step
     def click_log_out_button(self):
         self.click(self.USER_DETAILS_DROPDOWN)
         self.page.get_by_role("menuitem", name="Logout").click()
@@ -61,7 +60,6 @@ class DefaultPageObjects(Base):
         else:
             pass
 
-    @allure.step
     def assert_title_items_in_about_pop_up(self):
         expected = sorted(self.about_pop_up_expected_items)
         self.click_about_button()

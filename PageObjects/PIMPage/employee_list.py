@@ -17,7 +17,7 @@ class EmployeeList(Base):
     def delete_employee_by_name(self, employee_name: str):
         self.page.wait_for_load_state("domcontentloaded")
         self.assertions.check_presence(self.EMPLOYEE_TABLE)
-        row_by_name = self.get_table_row_by_name(employee_name)
+        row_by_name = self.get_table_row_by_value(employee_name)
 
         try:
             row_by_name.locator(self.DELETE_BUTTON).click()

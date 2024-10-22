@@ -5,7 +5,7 @@ load_dotenv()
 pytest_plugins = [
     'Fixtures.page',
     'Fixtures.user_auth',
-    'Fixtures.requests',
+    'Fixtures.postman_requests',
     'Fixtures.employees',
     'Fixtures.reporting',
     'Fixtures.users'
