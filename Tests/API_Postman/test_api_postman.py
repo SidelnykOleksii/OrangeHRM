@@ -16,4 +16,4 @@ def test_get(postman_get_request):
 
 
 def test_get_response_message(postman_get_request):
-    assert  postman_get_request.json()["message"] == "You made a GET request!"
+    assert postman_get_request.json()["message"] == "You made a GET request!"

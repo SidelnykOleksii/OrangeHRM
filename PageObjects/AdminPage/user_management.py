@@ -44,7 +44,7 @@ class AdminPage(Base):
 
     def delete_user_by_name(self, username: str):
         self.page.wait_for_load_state("domcontentloaded")
-        row_by_name = self.get_table_row_by_name(username)
+        row_by_name = self.get_table_row_by_value(username)
         try:
             row_by_name.locator(self.DELETE_BUTTON).click()
             self.page.locator(self.CONFIRM_DELETE_BUTTON).click()
@@ -69,7 +69,7 @@ class AdminPage(Base):
         self.page.wait_for_load_state("networkidle")
         self.page.wait_for_timeout(timeout=5000)  # temporary solution to avoid flakey
 
-        row_by_username = self.get_table_row_by_name(username)
+        row_by_username = self.get_table_row_by_value(username)
 
         if row_by_username == 0:
             raise AssertionError(f"User {username} is not found in the table")
@@ -100,7 +100,7 @@ class AdminPage(Base):
 
     def open_edit_user_form(self, username):
         self.page.wait_for_load_state("domcontentloaded")
-        row_by_username = self.get_table_row_by_name(username)
+        row_by_username = self.get_table_row_by_value(username)
 
         try:
             row_by_username.locator(self.EDIT_BUTTON).click()

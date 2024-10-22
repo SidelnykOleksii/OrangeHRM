@@ -18,6 +18,8 @@ class Base:
     DROPDOWN = "//nav[@class='oxd-topbar-body-nav']/ul/li//span"
     MENU_ITEM = "//ul[@class='oxd-dropdown-menu']/li/a"
     SAVE_BUTTON = "//div/button[@type='submit']"
+    APPLY_BUTTON = "//div/button[@type='submit' and text()=' Apply ']"
+    SUB_PAGE_ITEM = "//nav[@class='oxd-topbar-body-nav']/ul/li/a[text()='{}']"
 
     # common table selectors
     TABLE_CELL = "//div[text()='{}']"
@@ -52,6 +54,10 @@ class Base:
         dropdown.click()
         self.page.locator(self.MENU_ITEM, has_text=option_text).click()
 
+    def select_sub_page(self, sub_page_name: str):
+        sub_page_item = self.page.locator(self.SUB_PAGE_ITEM.format(sub_page_name))
+        sub_page_item.click()
+
     def click_on_save_button(self):
         self.click(self.SAVE_BUTTON)
 
@@ -67,7 +73,13 @@ class Base:
         expect(loc).to_be_visible(timeout=5000)
 
     # common tabel actions
-    def get_table_row_by_name(self, name: str):
+    def get_table_row_by_value(self, name: str):
         row_by_name = self.page.locator(f"{self.TABLE_CELL.format(name)}"
                                         f"/ancestor::div[contains(@class, 'oxd-table-row')]")
         return row_by_name
+
+    def select_row_in_the_table(self, value: str):
+        row = self.get_table_row_by_value(value)
+        row_checkbox_locator = row.locator("//span/i")
+        expect(row_checkbox_locator).not_to_be_checked()
+        row_checkbox_locator.check()
