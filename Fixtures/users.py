@@ -1,5 +1,5 @@
 import pytest
-from PageObjects.AdminPage.user_management import AdminPage
+from PageObjects.AdminPage.user_management_page import AdminPage
 from PageObjects.default_page import DefaultPageObjects
 from Utilities.helpers import GenerateRandomString
 

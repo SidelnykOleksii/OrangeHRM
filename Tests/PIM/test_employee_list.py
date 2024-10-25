@@ -1,5 +1,5 @@
 import pytest
-from PageObjects.PIMPage.employee_list import EmployeeList
+from PageObjects.PIMPage.employee_list_page import EmployeeList
 from PageObjects.default_page import DefaultPageObjects
 
 

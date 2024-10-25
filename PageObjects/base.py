@@ -55,6 +55,7 @@ class Base:
         self.page.locator(self.MENU_ITEM, has_text=option_text).click()
 
     def select_sub_page(self, sub_page_name: str):
+        self.page.wait_for_load_state("domcontentloaded")
         sub_page_item = self.page.locator(self.SUB_PAGE_ITEM.format(sub_page_name))
         sub_page_item.click()
 

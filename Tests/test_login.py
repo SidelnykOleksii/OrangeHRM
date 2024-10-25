@@ -1,7 +1,7 @@
 import allure
 import pytest
 from pytest import mark
-from PageObjects.login import LoginPage
+from PageObjects.login_page import LoginPage
 from Utilities.constants import Constants
 
 
