@@ -1,5 +1,5 @@
 import pytest
-from PageObjects.AdminPage.job import JobPage
+from PageObjects.AdminPage.job_page import JobPage
 from PageObjects.default_page import DefaultPageObjects
 from Utilities.helpers import GenerateRandomString
 

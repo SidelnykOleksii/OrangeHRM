@@ -1,5 +1,5 @@
 import pytest
-from PageObjects.login import LoginPage
+from PageObjects.login_page import LoginPage
 from PageObjects.default_page import DefaultPageObjects
 from API.api_helpers import Cookies
 

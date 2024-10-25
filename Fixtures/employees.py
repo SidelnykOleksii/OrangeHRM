@@ -1,6 +1,6 @@
 import pytest
-from PageObjects.PIMPage.add_employee import PimPage
-from PageObjects.PIMPage.employee_list import EmployeeList
+from PageObjects.PIMPage.add_employee_page import PimPage
+from PageObjects.PIMPage.employee_list_page import EmployeeList
 from PageObjects.default_page import DefaultPageObjects
 from API.PIM.api_employee import APIEmployee
 
